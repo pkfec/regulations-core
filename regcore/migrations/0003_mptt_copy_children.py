@@ -10,7 +10,10 @@ import mptt.managers
 def rebuild(apps, schema_editor):
     Regulation = apps.get_model('regcore', 'Regulation')
     Regulation.objects.filter(root=False).delete()
-
+    print('Regulation: ', Regulation)
+    print('type(Regulation): ', type(Regulation))
+    print('dir(Regulation): ', dir(Regulation))
+    
     # Bind manager
     manager = mptt.managers.TreeManager()
     manager.model = Regulation
