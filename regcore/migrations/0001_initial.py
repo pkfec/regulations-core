@@ -62,14 +62,17 @@ class Migration(migrations.Migration):
                 ('root', models.BooleanField(default=False, db_index=True)),
             ],
         ),
-        migrations.AlterUniqueTogether(
-            name='regulation',
-            unique_together=set([('version', 'label_string')]),
-        ),
-        migrations.AlterIndexTogether(
-            name='regulation',
-            index_together=set([('version', 'label_string')]),
-        ),
+        # Commenting out these lines to resolve django-mptt migration
+        # errors: https://github.com/django-mptt/django-mptt/issues/803
+
+        # migrations.AlterUniqueTogether(
+        #     name='regulation',
+        #     unique_together=set([('version', 'label_string')]),
+        # ),
+        # migrations.AlterIndexTogether(
+        #     name='regulation',
+        #     index_together=set([('version', 'label_string')]),
+        # ),
         migrations.AlterUniqueTogether(
             name='layer',
             unique_together=set([('version', 'name', 'label')]),

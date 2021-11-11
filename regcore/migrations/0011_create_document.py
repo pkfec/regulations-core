@@ -30,12 +30,15 @@ class Migration(migrations.Migration):
                 ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='regcore.Document', null=True, on_delete=models.SET_NULL)),
             ],
         ),
-        migrations.AlterUniqueTogether(
-            name='document',
-            unique_together=set([('doc_type', 'version', 'label_string')]),
-        ),
-        migrations.AlterIndexTogether(
-            name='document',
-            index_together=set([('doc_type', 'version', 'label_string')]),
-        ),
+        # Commenting out these lines to resolve django-mptt migration
+        # errors: https://github.com/django-mptt/django-mptt/issues/803
+
+        # migrations.AlterUniqueTogether(
+        #     name='document',
+        #     unique_together=set([('doc_type', 'version', 'label_string')]),
+        # ),
+        # migrations.AlterIndexTogether(
+        #     name='document',
+        #     index_together=set([('doc_type', 'version', 'label_string')]),
+        # ),
     ]
