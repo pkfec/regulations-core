@@ -6,6 +6,8 @@ from django.db import migrations
 import mptt
 import mptt.managers
 
+def convert_to_tuple(set):
+    return tuple(i for i in set)
 
 def rebuild(apps, schema_editor):
     Regulation = apps.get_model('regcore', 'Regulation')
@@ -14,6 +16,9 @@ def rebuild(apps, schema_editor):
     # Bind manager
     manager = mptt.managers.TreeManager()
     manager.model = Regulation
+    # Convert to tuple to resolve django-mptt migration
+    # errors: https://github.com/django-mptt/django-mptt/issues/803
+    Regulation._meta.index_together = convert_to_tuple(Regulation._meta.index_together)
     mptt.register(Regulation)
     manager.contribute_to_class(Regulation, 'objects')
 

@@ -36,6 +36,8 @@ def uncopy_regulations(apps, schema_editor):
         reg.parent_id = doc.parent_id
         reg.save()
 
+def convert_to_tuple(set):
+    return tuple(i for i in set)
 
 def copy_preambles(apps, schema_editor):
     Preamble = apps.get_model('regcore', 'Preamble')
@@ -44,6 +46,9 @@ def copy_preambles(apps, schema_editor):
     # Bind manager
     manager = mptt.managers.TreeManager()
     manager.model = Document
+    # Convert to tuple to resolve django-mptt migration
+    # errors: https://github.com/django-mptt/django-mptt/issues/803
+    Document._meta.index_together = convert_to_tuple(Document._meta.index_together)
     mptt.register(Document)
     manager.contribute_to_class(Document, 'objects')
 
@@ -58,6 +63,9 @@ def uncopy_preambles(apps, schema_editor):
     # Bind manager
     manager = mptt.managers.TreeManager()
     manager.model = Document
+    # Convert to tuple to resolve django-mptt migration
+    # errors: https://github.com/django-mptt/django-mptt/issues/803
+    Document._meta.index_together = convert_to_tuple(Document._meta.index_together)
     mptt.register(Document)
     manager.contribute_to_class(Document, 'objects')
 
